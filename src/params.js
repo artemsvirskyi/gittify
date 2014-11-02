@@ -1,11 +1,12 @@
-var	name = args[2],
+var	name = process.argv[2],
 	dir = 'app/components',
 	shorthandResolver = 'git@git.qapint.com:{{owner}}/{{package}}.git',
 	remote = getRemote(shorthandResolver, name);
 
 function getRemote(shorthandResolver, name){
 	var interpolate = require('interpolate'),
-		component = require('../bower.json').dependencies[name];
+		path = require('path'),
+		component = require(path.join(process.cwd(), 'bower.json')).dependencies[name];
 
 	component = component.split('#')[0].split('/');
 
