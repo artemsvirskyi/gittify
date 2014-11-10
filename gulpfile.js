@@ -6,7 +6,8 @@ module.exports = function(gulp){
 		es = require('event-stream'),
 		params = require('./src/params'),
 		path = require('path'),
-		concat = require('gulp-concat');
+		concat = require('gulp-concat'),
+		merge = require('./src/merge');
 
 	gulp.task('clone', function(cb){
 		git.clone(params.remote, {args: params.name, cwd: path.join(__dirname, 'gittify')}, cb);
@@ -20,6 +21,7 @@ module.exports = function(gulp){
 	gulp.task('gitignore', ['clone'], function(){
 		return gulp.src(['./src/.default-gitignore', path.join('./gittify', params.name, '.gitignore')], {cwd: __dirname})
 			.pipe(concat('.gitignore'))
+			.pipe(merge())
 			.pipe(gulp.dest(path.join(process.cwd(), params.dir, params.name)));
 	});
 
